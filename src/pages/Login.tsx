@@ -1,8 +1,8 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import React from 'react'
 import logo from '../assets/image.png'
 import api from '../config/ConfigAPI'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 type Errors = {
     email?:string,
@@ -60,11 +60,17 @@ const Login:React.FC = () =>{
                     }).then((response)=>{
                         localStorage.setItem('token', response.data.tokens.access)
                         navigate('/profile')
-                    }).catch((error)=> alert(error.response.data.detail)).finally(()=> setSubmitting(false))
+                    }).catch((error)=> {
+                        const element = document.getElementById('alerta')
+                        if(element){
+                            element.innerText = error.response.data.detail
+                        }
+                    }).finally(()=> setSubmitting(false))
                 }}
                 >
                     {({ isSubmitting }) => (
                         <Form>
+                            <span id='alerta'></span>
                             <div className="mb-5">
                                 <label htmlFor="email" className="block mb-2 text-sm text-gray-600">E-mail</label>
                                 <Field type="email" name="email" id="email" placeholder="@gmail.com" className="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:border-blue-500" />
